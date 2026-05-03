@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Marketing Dashboard - Wakaf Produktif</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen">
+    <div class="max-w-7xl mx-auto px-6 py-12">
+        <!-- Header -->
+        <div class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div>
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="w-3 h-3 bg-indigo-600 rounded-full animate-pulse"></span>
+                    <span class="text-xs font-bold text-indigo-600 uppercase tracking-[0.2em]">Automated Pipeline</span>
+                </div>
+                <h1 class="text-4xl font-extrabold text-slate-900 tracking-tight">AI Marketing Dashboard</h1>
+                <p class="text-slate-500 mt-2 text-lg">Campaign Report: <span class="text-slate-900 font-semibold">Wakaf Produktif</span></p>
+            </div>
+            <div class="flex gap-2">
+                <div class="bg-white border border-slate-200 rounded-lg px-4 py-2 shadow-sm">
+                    <p class="text-[10px] text-slate-400 uppercase font-bold">Execution Status</p>
+                    <p class="text-sm font-bold text-green-600">COMPLETED</p>
+                </div>
+                <div class="bg-white border border-slate-200 rounded-lg px-4 py-2 shadow-sm">
+                    <p class="text-[10px] text-slate-400 uppercase font-bold">Data Source</p>
+                    <p class="text-sm font-bold text-slate-800">Meta Ads Library</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <!-- [COPYWRITER] -->
+            <div class="group bg-white rounded-3xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:border-indigo-100 transition-all duration-300">
+                <div class="flex items-start justify-between mb-8">
+                    <div class="p-3 bg-indigo-50 text-indigo-600 rounded-2xl group-hover:bg-indigo-600 group-hover:text-white transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                        </svg>
+                    </div>
+                    <span class="text-[10px] font-black text-slate-300 uppercase tracking-widest">Agent Copywriter</span>
+                </div>
+                
+                <h2 class="text-2xl font-bold text-slate-800 mb-4 tracking-tight">Creative Copywriting</h2>
+                <div class="space-y-6">
+                    <div class="bg-indigo-50/50 border border-indigo-100 p-5 rounded-2xl">
+                        <p class="text-xs font-bold text-indigo-400 uppercase mb-2">Primary Hook</p>
+                        <p class="text-xl font-extrabold text-indigo-900 leading-tight">"Seharga Kopi = Pahala Abadi"</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-sm font-bold text-slate-700 mb-2">AIDA/PAS Framework</h3>
+                        <p class="text-slate-500 text-sm leading-relaxed">Fokus pada urgensi Sedekah Jariyah. Budget mulai Rp 50.000 (Setara 2 cup kopi) dengan kemudahan QRIS/Transfer.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 gap-3">
+                        <div class="p-3 border border-slate-100 rounded-xl bg-slate-50/50">
+                            <p class="text-[10px] font-bold text-slate-400 mb-1 italic">CTA Variation #1</p>
+                            <p class="text-xs font-medium text-slate-700">"Jangan tunda! Klik link di bio buat mulai Wakaf Produktif pertamamu."</p>
+                        </div>
+                        <div class="p-3 border border-slate-100 rounded-xl bg-slate-50/50">
+                            <p class="text-[10px] font-bold text-slate-400 mb-1 italic">CTA Variation #2</p>
+                            <p class="text-xs font-medium text-slate-700">"Ubah jajan jadi pahala abadi. Scan QRIS-nya sekarang!"</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- [ANALYST] -->
+            <div class="group bg-white rounded-3xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:border-emerald-100 transition-all duration-300">
+                <div class="flex items-start justify-between mb-8">
+                    <div class="p-3 bg-emerald-50 text-emerald-600 rounded-2xl group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                        </svg>
+                    </div>
+                    <span class="text-[10px] font-black text-slate-300 uppercase tracking-widest">Agent Analyst</span>
+                </div>
+                
+                <h2 class="text-2xl font-bold text-slate-800 mb-4 tracking-tight">Ads Performance & Budget</h2>
+                <div class="space-y-6">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="p-4 bg-emerald-50 rounded-2xl border border-emerald-100">
+                            <p class="text-[10px] font-bold text-emerald-400 uppercase">Target CPA</p>
+                            <p class="text-2xl font-black text-emerald-700">&lt; Rp 30rb</p>
+                        </div>
+                        <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                            <p class="text-[10px] font-bold text-slate-400 uppercase">Market</p>
+                            <p class="text-lg font-bold text-slate-700">Indonesia</p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-sm font-bold text-slate-700 mb-3">Budget Simulation</h3>
+                        <div class="space-y-2">
+                            <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-100">
+                                <span class="text-xs font-medium text-slate-600">Testing Phase</span>
+                                <span class="text-[10px] bg-white px-2 py-1 rounded-md shadow-sm text-slate-400 font-bold tracking-tighter">LOW RISK</span>
+                            </div>
+                            <div class="flex items-center justify-between p-3 rounded-xl bg-emerald-50/50 border border-emerald-100">
+                                <span class="text-xs font-bold text-emerald-700">Scaling Phase</span>
+                                <span class="text-[10px] bg-emerald-600 text-white px-2 py-1 rounded-md shadow-sm font-bold tracking-tighter">RECOMMENDED</span>
+                            </div>
+                            <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-100">
+                                <span class="text-xs font-medium text-slate-600">Aggressive</span>
+                                <span class="text-[10px] bg-white px-2 py-1 rounded-md shadow-sm text-slate-400 font-bold tracking-tighter">SCALING UP</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- [STRATEGIST] -->
+            <div class="group bg-white rounded-3xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:border-amber-100 transition-all duration-300">
+                <div class="flex items-start justify-between mb-8">
+                    <div class="p-3 bg-amber-50 text-amber-600 rounded-2xl group-hover:bg-amber-600 group-hover:text-white transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                        </svg>
+                    </div>
+                    <span class="text-[10px] font-black text-slate-300 uppercase tracking-widest">Agent Strategist</span>
+                </div>
+                
+                <h2 class="text-2xl font-bold text-slate-800 mb-4 tracking-tight">Growth Strategy</h2>
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="text-sm font-bold text-slate-700 mb-3">Target Persona</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-amber-100 text-amber-800 text-[10px] font-bold rounded-lg uppercase tracking-wider">Milenial</span>
+                            <span class="px-3 py-1 bg-amber-100 text-amber-800 text-[10px] font-bold rounded-lg uppercase tracking-wider">Keluarga Muda</span>
+                            <span class="px-3 py-1 bg-amber-100 text-amber-800 text-[10px] font-bold rounded-lg uppercase tracking-wider">Entrepreneurs</span>
+                        </div>
+                    </div>
+                    
+                    <div class="relative overflow-hidden bg-slate-900 rounded-2xl p-5 group-hover:bg-amber-900 transition-colors">
+                        <div class="relative z-10">
+                            <p class="text-[10px] font-bold text-amber-500 uppercase mb-2">Creative Brief: Video</p>
+                            <p class="text-sm text-amber-50 leading-relaxed italic">"Split-screen hook: Visual lifestyle (jajan kopi) disandingkan dengan manfaat nyata wakaf produktif (Sekolah/RS)."</p>
+                        </div>
+                        <div class="absolute right-[-10px] bottom-[-10px] opacity-10">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-24 h-24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- [AUDITOR] -->
+            <div class="group bg-white rounded-3xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:border-rose-100 transition-all duration-300">
+                <div class="flex items-start justify-between mb-8">
+                    <div class="p-3 bg-rose-50 text-rose-600 rounded-2xl group-hover:bg-rose-600 group-hover:text-white transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                        </svg>
+                    </div>
+                    <span class="text-[10px] font-black text-slate-300 uppercase tracking-widest">Agent Auditor</span>
+                </div>
+                
+                <h2 class="text-2xl font-bold text-slate-800 mb-4 tracking-tight">Competitor & Compliance</h2>
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="text-sm font-bold text-slate-700 mb-3">Market Benchmarks</h3>
+                        <ul class="space-y-2">
+                            <li class="flex items-center gap-2 text-xs text-slate-500">
+                                <span class="w-1.5 h-1.5 bg-rose-400 rounded-full"></span>
+                                Dompet Dhuafa: Scraping Selesai
+                            </li>
+                            <li class="flex items-center gap-2 text-xs text-slate-500">
+                                <span class="w-1.5 h-1.5 bg-rose-400 rounded-full"></span>
+                                BWI / Sinergi: Analisis Celah Pasar
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-rose-50/50 p-5 rounded-2xl border border-rose-100 relative overflow-hidden">
+                        <p class="text-[10px] font-bold text-rose-400 uppercase mb-2">Counter-Offer Strategic</p>
+                        <p class="text-lg font-extrabold text-rose-900 leading-tight">"Saham Akhirat"</p>
+                        <p class="text-xs text-rose-700 mt-2 font-medium">Unique Selling Point: Transparansi Real-time & Update Progres Mingguan via WhatsApp.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <div class="mt-16 flex flex-col md:flex-row items-center justify-between gap-6 border-t border-slate-200 pt-8 text-center md:text-left">
+            <div class="flex flex-wrap justify-center md:justify-start gap-3">
+                <span class="px-3 py-1 bg-slate-100 text-slate-500 text-[10px] font-bold rounded-md border border-slate-200">dashboard.html</span>
+                <span class="px-3 py-1 bg-slate-100 text-slate-500 text-[10px] font-bold rounded-md border border-slate-200">copywriter.md</span>
+                <span class="px-3 py-1 bg-slate-100 text-slate-500 text-[10px] font-bold rounded-md border border-slate-200">analyst.md</span>
+                <span class="px-3 py-1 bg-slate-100 text-slate-500 text-[10px] font-bold rounded-md border border-slate-200">strategist.md</span>
+                <span class="px-3 py-1 bg-slate-100 text-slate-500 text-[10px] font-bold rounded-md border border-slate-200">auditor.md</span>
+            </div>
+            <p class="text-slate-400 text-xs font-medium">Generated by Ads Autonomous CLI Engine • 2026</p>
+        </div>
+    </div>
+</body>
+</html>
