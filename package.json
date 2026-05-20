@@ -1,7 +1,7 @@
 {
   "name": "ads-autonomous-cli",
   "version": "1.0.0",
-  "description": "",
+  "description": "An autonomous multi-agent AI marketing campaign assistant and competitor ad scraping command-line suite powered by Playwright and Gemini.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
