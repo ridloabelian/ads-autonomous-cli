@@ -15,6 +15,7 @@
   "type": "module",
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.19",
+    "@tailwindcss/vite": "^4.3.0",
     "@types/marked": "^5.0.2",
     "@types/node": "^25.6.0",
     "@types/react": "^19.2.14",
