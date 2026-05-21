@@ -1,4 +1,4 @@
 import React from 'react';
-declare const LandingPage: React.FC;
-export default LandingPage;
+declare const App: React.FC;
+export default App;
 //# sourceMappingURL=App.d.ts.map

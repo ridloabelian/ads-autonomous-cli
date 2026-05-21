@@ -95,22 +95,49 @@ open output/dashboard.html
 
 ## 🛠️ Companion Web Application
 
-This project includes a React dashboard and an Express API server to serve campaign results dynamically.
+This project includes a **full-featured React dashboard** and an **Express API server** to serve campaign results dynamically.
 
-### Run Development Servers
+### Two Ways to Use
 
-1. **Launch Frontend (Vite + React)**:
-   ```bash
-   npm run dev
-   ```
-2. **Launch Backend (Express + TypeScript)**:
-   ```bash
-   npm run start
-   ```
+#### Option 1: CLI Mode (Original)
+Run the autonomous marketing assistant via command line:
+```bash
+chmod +x run-assistant.sh
+./run-assistant.sh
+```
+View results: `open output/dashboard.html`
+
+#### Option 2: Web Dashboard (New! 🎉)
+Use the modern web interface with real-time campaign generation:
+
+**Start Backend Server:**
+```bash
+npm run start
+```
+
+**Start Frontend (in a new terminal):**
+```bash
+npm run dev
+```
+
+**Access Dashboard:**
+Open `http://localhost:5173` in your browser.
+
+### Web Dashboard Features
+- 📝 **Interactive Form** - Input product details and competitor keywords via UI
+- 🤖 **Real-time Generation** - Watch as AI agents process your campaign
+- 📊 **Beautiful Results Display** - View all 4 agent reports in expandable cards
+- 🎨 **Markdown Rendering** - Properly formatted reports with syntax highlighting
+- 🔄 **Campaign History** - Access previously generated campaigns
+
+For detailed web dashboard documentation, see [WEB_DASHBOARD.md](ads-autonomous-cli/WEB_DASHBOARD.md)
+
+### API Endpoints
 
 The Express backend exposes:
-- `GET /api/health` - Simple status verification.
-- `GET /api/campaign-data` - Reads compiled marketing reports (`.md`) from the output folder and returns them as structured JSON.
+- `GET /api/health` - Simple status verification
+- `GET /api/campaign-data` - Reads compiled marketing reports (`.md`) from the output folder and returns them as structured JSON
+- `POST /api/run-campaign` - Triggers the AI campaign pipeline with provided product description and competitor keyword
 
 ---
 

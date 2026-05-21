@@ -1,0 +1,1 @@
+{"version":3,"file":"CampaignCard.d.ts","sourceRoot":"","sources":["../../src/components/CampaignCard.tsx"],"names":[],"mappings":"AAAA,OAAO,KAAmB,MAAM,OAAO,CAAC;AAIxC,UAAU,iBAAiB;IACzB,KAAK,EAAE,MAAM,CAAC;IACd,OAAO,EAAE,MAAM,CAAC;IAChB,IAAI,EAAE,KAAK,CAAC,SAAS,CAAC;IACtB,KAAK,EAAE,MAAM,CAAC;CACf;AAED,eAAO,MAAM,YAAY,EAAE,KAAK,CAAC,EAAE,CAAC,iBAAiB,CAgCpD,CAAC"}

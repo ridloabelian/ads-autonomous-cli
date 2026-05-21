@@ -1,0 +1,21 @@
+import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-runtime";
+import React, { useState } from 'react';
+import { Zap, Loader2 } from 'lucide-react';
+export const CampaignForm = ({ onSubmit, isLoading }) => {
+    const [formData, setFormData] = useState({
+        productDescription: '',
+        competitorKeyword: '',
+    });
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        await onSubmit(formData);
+    };
+    const handleChange = (e) => {
+        setFormData(prev => ({
+            ...prev,
+            [e.target.name]: e.target.value,
+        }));
+    };
+    return (_jsxs("form", { onSubmit: handleSubmit, className: "bg-white rounded-2xl shadow-lg p-8 border border-gray-100", children: [_jsxs("div", { className: "flex items-center gap-3 mb-6", children: [_jsx("div", { className: "w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center", children: _jsx(Zap, { className: "text-white", size: 20 }) }), _jsx("h2", { className: "text-2xl font-bold text-gray-900", children: "Generate Campaign Baru" })] }), _jsxs("div", { className: "space-y-6", children: [_jsxs("div", { children: [_jsx("label", { htmlFor: "productDescription", className: "block text-sm font-semibold text-gray-700 mb-2", children: "\uD83D\uDCDD Deskripsi Produk/Jasa Anda" }), _jsx("textarea", { id: "productDescription", name: "productDescription", value: formData.productDescription, onChange: handleChange, required: true, rows: 4, placeholder: "Contoh: Kursus online n8n untuk automasi bisnis, dari nol sampai mahir membangun agentic workflow...", className: "w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none", disabled: isLoading })] }), _jsxs("div", { children: [_jsx("label", { htmlFor: "competitorKeyword", className: "block text-sm font-semibold text-gray-700 mb-2", children: "\uD83C\uDFAF Kata Kunci Iklan Kompetitor" }), _jsx("input", { id: "competitorKeyword", name: "competitorKeyword", type: "text", value: formData.competitorKeyword, onChange: handleChange, required: true, placeholder: "Contoh: kursus automasi, kursus n8n", className: "w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all", disabled: isLoading }), _jsx("p", { className: "mt-2 text-xs text-gray-500", children: "Kata kunci ini akan digunakan untuk scraping Meta Ads Library" })] }), _jsx("button", { type: "submit", disabled: isLoading || !formData.productDescription || !formData.competitorKeyword, className: "w-full bg-blue-500 text-white py-4 rounded-xl font-bold text-lg hover:bg-blue-600 transition-all shadow-lg shadow-blue-500/20 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2", children: isLoading ? (_jsxs(_Fragment, { children: [_jsx(Loader2, { className: "animate-spin", size: 20 }), _jsx("span", { children: "Generating Campaign..." })] })) : (_jsxs(_Fragment, { children: [_jsx(Zap, { size: 20 }), _jsx("span", { children: "Generate Campaign" })] })) }), isLoading && (_jsxs("div", { className: "bg-blue-50 border border-blue-100 rounded-xl p-4", children: [_jsx("p", { className: "text-sm text-blue-800 font-medium mb-2", children: "\u23F3 Proses sedang berjalan..." }), _jsxs("ul", { className: "text-xs text-blue-600 space-y-1 ml-4", children: [_jsx("li", { children: "\u2022 Scraping Meta Ads Library" }), _jsx("li", { children: "\u2022 Menjalankan AI Copywriter" }), _jsx("li", { children: "\u2022 Menjalankan AI Analyst" }), _jsx("li", { children: "\u2022 Menjalankan AI Strategist" }), _jsx("li", { children: "\u2022 Menjalankan AI Auditor" })] }), _jsx("p", { className: "text-xs text-blue-600 mt-3", children: "Estimasi waktu: 2-3 menit" })] }))] })] }));
+};
+//# sourceMappingURL=CampaignForm.js.map
