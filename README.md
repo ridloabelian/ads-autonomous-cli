@@ -1,146 +1,247 @@
 # Ads Autonomous CLI 🚀
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Cloudflare%20Pages-F38020?logo=cloudflare&logoColor=white)](https://main.ads-dashboard-4ce.pages.dev)
+[![API](https://img.shields.io/badge/API-Cloudflare%20Workers-F38020?logo=cloudflare&logoColor=white)](https://ads-autonomous-api.ridloabelian.workers.dev/api/health)
 [![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
-[![Framework: TailwindCSS](https://img.shields.io/badge/TailwindCSS-v4-38bdf8.svg)](https://tailwindcss.com/)
-[![Runtime: Node.js](https://img.shields.io/badge/Node.js-v18+-339933.svg)](https://nodejs.org/)
-[![Tool: Playwright](https://img.shields.io/badge/Playwright-Browser%20Scrape-2e8b57.svg)](https://playwright.dev/)
+[![Stack: React + Vite](https://img.shields.io/badge/Stack-React%20%2B%20Vite-61DAFB?logo=react&logoColor=white)](https://vitejs.dev/)
+[![AI: Cloudflare Workers AI](https://img.shields.io/badge/AI-Cloudflare%20Workers%20AI-F38020?logo=cloudflare&logoColor=white)](https://developers.cloudflare.com/workers-ai/)
+[![Runtime: Node.js](https://img.shields.io/badge/Node.js-v18+-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
 
-An autonomous, multi-agent AI marketing campaign assistant and competitor ad scraping command-line suite. 
+An autonomous, multi-agent AI marketing campaign assistant with competitor ad scraping — deployed on Cloudflare's global edge network.
 
-This repository provides an automated pipeline that searches the **Meta Ads Library** using **Playwright**, processes competitor marketing approaches, and runs an intelligent multi-agent sequential pipeline (Copywriter, Analyst, Strategist, and Auditor) using state-of-the-art Generative AI models. The entire run compiles into a professional, ready-to-use HTML marketing dashboard.
-
----
-
-## 🌟 Key Features
-
-1. **🕵️‍♂️ Headless Competitor Ads Scraper**
-   - Leverages Playwright to automate search queries on the Meta Ads Library.
-   - Extracts active competitor marketing headlines, body text, and active assets.
-   - Outputs robust structured JSON data for deep downstream auditing.
-
-2. **🤖 Multi-Agent Sequential AI Pipeline**
-   - ✍️ **Expert Direct-Response Copywriter**: Drafts conversion-focused ad copies utilizing PAS (Problem-Agitate-Solve) and AIDA frameworks.
-   - 📊 **Performance Marketing Analyst**: Models structured budget tiers (Testing, Scaling, Aggressive) and simulates standard KPI metrics (CPM, CPC, CTR).
-   - 🎯 **Marketing Strategist & Creative Briefer**: Profiles ideal buyer personas, details visual and video editor guidelines, and crafts landing page recommendations.
-   - 🔍 **Competitor & Market Auditor**: Evaluates scraped competitor offerings to outline clear market gaps and recommend high-converting counter-offers.
-
-3. **🌐 Interactive Campaign Reporting Dashboard**
-   - Automatically assembles and merges AI agent analytical reports.
-   - Spits out a fully responsive, modern single-page HTML report styled with Tailwind CSS via CDN.
-
-4. **⚡ Modern Web Stack Integration**
-   - Features a custom full-stack companion application powered by **Vite**, **React**, **TypeScript**, and **Express** inside the application subdirectory.
-   - Express backend endpoints read real-time campaign folders to serve and display details dynamically.
+> **🌐 Live:** [main.ads-dashboard-4ce.pages.dev](https://main.ads-dashboard-4ce.pages.dev)
 
 ---
 
-## 📂 Project Structure
+## ✨ What It Does
 
-```bash
-.
-├── ABOUT.md                      # High-impact English product overview
-├── README.md                     # Root comprehensive project manual
-├── package.json                  # Root configurations & scripts
-├── setup.sh                      # Automation script to bootstrap development environment
-└── ads-autonomous-cli/           # Main Application Workspace
-    ├── package.json              # App dependencies & run scripts
-    ├── run-assistant.sh          # safe Autopilot multi-agent CLI runner
-    ├── scrape-ads.js             # Playwright Meta Ads Library scraper
-    ├── src/                      # Vite + React & Express source files
-    │   ├── index.ts              # Express API Server
-    │   ├── main.tsx              # React Entry Point
-    │   └── App.tsx               # Beautiful React Landing page template
-    ├── prompts/                  # AI System Roles and Prompts (Copywriter, Analyst, etc.)
-    └── tailwind.config.js        # Tailwind CSS styling configuration
+Paste your product description and a competitor keyword. The system will:
+
+1. **Scrape** competitor ads from Meta Ads Library
+2. **Generate** 4 specialized AI agent reports in parallel:
+   - ✍️ **Copywriter** — Ad copy variations using AIDA/PAS frameworks
+   - 📊 **Analyst** — Budget scenarios with CPM, CPC, CTR estimates
+   - 🎯 **Strategist** — Buyer personas and creative briefs
+   - 🔍 **Auditor** — Competitor gap analysis and counter-offers
+3. **Display** results in a clean, expandable dashboard
+
+Total time: ~40 seconds per campaign.
+
+---
+
+## 🏗️ Architecture
+
 ```
+Browser (Cloudflare Pages)
+    │
+    │ POST /api/run-campaign
+    ▼
+Cloudflare Workers (Hono)
+    │
+    ├── Apify API ──────────► Meta Ads Library scraping
+    │
+    ├── Cloudflare Workers AI (Llama 3.1 8B)
+    │       ├── Copywriter agent
+    │       ├── Analyst agent
+    │       ├── Strategist agent
+    │       └── Auditor agent
+    │
+    └── Cloudflare KV ──────► Campaign storage
+```
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Frontend | React 19, TypeScript, Vite 8, Tailwind CSS v4 |
+| Backend | Cloudflare Workers, Hono framework |
+| AI | Cloudflare Workers AI (Llama 3.1 8B) |
+| Storage | Cloudflare KV |
+| Scraping | Apify (Meta Ads Library) |
+| Hosting | Cloudflare Pages + Workers |
 
 ---
 
 ## 🚀 Quick Start
 
-### 1. Bootstrap the Project
-Run the bundled setup shell script to initialize directories, configure configurations (Tailwind & TypeScript), and pull down initial dependencies:
-```bash
-chmod +x setup.sh
-./setup.sh
-```
+### Option A: Use the Live App
 
-### 2. Configure the CLI Application
-Navigate to the application subdirectory:
+Open **[main.ads-dashboard-4ce.pages.dev](https://main.ads-dashboard-4ce.pages.dev)** — no setup needed.
+
+### Option B: Run Locally
+
+**Prerequisites:** Node.js v18+, Wrangler CLI
+
 ```bash
-cd ads-autonomous-cli
+# Clone
+git clone https://github.com/ridloabelian/ads-autonomous-cli.git
+cd ads-autonomous-cli/ads-autonomous-cli
+
+# Install dependencies
 npm install
+
+# Create local env file
+echo "APIFY_API_KEY=mock" > .dev.vars
+
+# Start local Worker (backend)
+wrangler dev
+
+# In another terminal — start frontend
+npm run dev
 ```
 
-### 3. Run the Autonomous Marketing Assistant
-Start the safe autopilot CLI run:
-```bash
-chmod +x run-assistant.sh
-./run-assistant.sh
+Open `http://localhost:5173`
+
+---
+
+## 📡 API Reference
+
+Base URL: `https://ads-autonomous-api.ridloabelian.workers.dev`
+
+### Health Check
 ```
-Follow the terminal prompt inputs:
-- 📝 **Product/Service Description**: Describe what your company or service offers.
-- 🎯 **Competitor Keyword**: Define the target keywords to scrape from the Meta Ads Library (e.g., `online course`, `shoes`).
+GET /api/health
+```
+```json
+{ "status": "ok", "message": "Ads Autonomous API is running" }
+```
 
-The script will safely scrape competitor ads, trigger the sequential Gemini AI pipeline, and output the compiled HTML report to:
-`output/dashboard.html`
+### Run Campaign
+```
+POST /api/run-campaign
+Content-Type: application/json
 
-### 4. View Your Report
-You can open the static compiled dashboard directly in your browser:
-```bash
-open output/dashboard.html
+{
+  "productDescription": "Your product or service description",
+  "competitorKeyword": "competitor keyword for Meta Ads scraping"
+}
+```
+```json
+{
+  "campaignId": "uuid",
+  "status": "completed",
+  "data": {
+    "results": {
+      "copywriter": "...",
+      "analyst": "...",
+      "strategist": "...",
+      "auditor": "..."
+    }
+  }
+}
+```
+
+### Get Campaign by ID
+```
+GET /api/campaign-data/:id
+```
+
+### List All Campaigns
+```
+GET /api/campaigns
 ```
 
 ---
 
-## 🛠️ Companion Web Application
+## 📂 Project Structure
 
-This project includes a **full-featured React dashboard** and an **Express API server** to serve campaign results dynamically.
-
-### Two Ways to Use
-
-#### Option 1: CLI Mode (Original)
-Run the autonomous marketing assistant via command line:
-```bash
-chmod +x run-assistant.sh
-./run-assistant.sh
 ```
-View results: `open output/dashboard.html`
-
-#### Option 2: Web Dashboard (New! 🎉)
-Use the modern web interface with real-time campaign generation:
-
-**Start Backend Server:**
-```bash
-npm run start
+ads-autonomous-cli/
+├── src/
+│   ├── components/          # React UI components
+│   │   ├── CampaignForm.tsx     # Input form
+│   │   ├── CampaignCard.tsx     # Expandable result card
+│   │   ├── EmptyState.tsx
+│   │   ├── LoadingState.tsx
+│   │   └── ErrorState.tsx
+│   ├── pages/
+│   │   └── Dashboard.tsx        # Main dashboard page
+│   ├── hooks/
+│   │   └── useCampaign.ts       # Campaign state management
+│   ├── services/
+│   │   └── api.ts               # API client
+│   ├── types/
+│   │   └── campaign.ts          # TypeScript interfaces
+│   ├── utils/
+│   │   └── markdown.ts          # Markdown parser
+│   ├── worker/                  # Cloudflare Workers backend
+│   │   ├── index.ts             # Worker entry point (Hono)
+│   │   └── services/
+│   │       ├── ai.ts            # Cloudflare Workers AI client
+│   │       ├── scraper.ts       # Apify scraper client
+│   │       └── campaign.ts      # Campaign orchestrator
+│   └── styles/
+│       └── globals.css          # Tailwind CSS v4
+├── prompts/                 # AI agent system prompts
+│   ├── copywriter.md
+│   ├── analyst.md
+│   ├── strategist.md
+│   └── auditor.md
+├── wrangler.toml            # Cloudflare Workers config
+├── vite.config.ts           # Vite build config
+└── package.json
 ```
 
-**Start Frontend (in a new terminal):**
+---
+
+## ⚙️ Deployment
+
+### Deploy Backend (Cloudflare Workers)
+
 ```bash
-npm run dev
+# Set secrets
+wrangler secret put APIFY_API_KEY
+
+# Deploy
+wrangler deploy
 ```
 
-**Access Dashboard:**
-Open `http://localhost:5173` in your browser.
+### Deploy Frontend (Cloudflare Pages)
 
-### Web Dashboard Features
-- 📝 **Interactive Form** - Input product details and competitor keywords via UI
-- 🤖 **Real-time Generation** - Watch as AI agents process your campaign
-- 📊 **Beautiful Results Display** - View all 4 agent reports in expandable cards
-- 🎨 **Markdown Rendering** - Properly formatted reports with syntax highlighting
-- 🔄 **Campaign History** - Access previously generated campaigns
+```bash
+# Build
+npm run build
 
-For detailed web dashboard documentation, see [WEB_DASHBOARD.md](ads-autonomous-cli/WEB_DASHBOARD.md)
+# Deploy
+npx wrangler pages deploy public --project-name=ads-dashboard
+```
 
-### API Endpoints
+---
 
-The Express backend exposes:
-- `GET /api/health` - Simple status verification
-- `GET /api/campaign-data` - Reads compiled marketing reports (`.md`) from the output folder and returns them as structured JSON
-- `POST /api/run-campaign` - Triggers the AI campaign pipeline with provided product description and competitor keyword
+## 💰 Cost
+
+Running entirely on free tiers:
+
+| Service | Usage | Cost |
+|---------|-------|------|
+| Cloudflare Pages | Unlimited bandwidth | Free |
+| Cloudflare Workers | 100k req/day | Free |
+| Cloudflare KV | 100k reads/day | Free |
+| Cloudflare Workers AI | 10k neurons/day | Free |
+| Apify | 5k results/month | Free |
+| **Total** | | **$0/month** |
+
+---
+
+## 🗺️ Roadmap
+
+- [x] CLI pipeline (Playwright + Gemini)
+- [x] React web dashboard
+- [x] Cloudflare Workers backend
+- [x] Cloudflare Workers AI integration
+- [x] Deploy to Cloudflare (Pages + Workers)
+- [ ] Real-time progress tracking (WebSocket)
+- [ ] Campaign history UI
+- [ ] Authentication (Cloudflare Access)
+- [ ] Custom domain
+- [ ] Apify real scraping integration
+- [ ] Export to PDF
+- [ ] Public SaaS launch
 
 ---
 
 ## 📄 License
 
-This project is licensed under the **ISC License**. See the `package.json` for details.
+ISC License — see [package.json](ads-autonomous-cli/package.json) for details.

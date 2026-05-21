@@ -1,17 +1,55 @@
-# About Ads Autonomous CLI
+# Ads Autonomous CLI
 
-**Ads Autonomous CLI** is a robust, autonomous multi-agent AI marketing pipeline and competitor analysis command-line suite. It is designed to automate complex marketing cycles—from initial competitor research to final high-impact copywriting and budgeting simulations.
+**Ads Autonomous CLI** adalah tools AI marketing otomatis yang berjalan di edge network Cloudflare — gratis, cepat, dan siap pakai.
 
-By orchestrating lightweight web scraping and state-of-the-art Generative AI models, the tool replaces hours of manual market auditing, content drafting, and performance planning with an automated, safe, and robust visual reporting dashboard.
+🌐 **Live:** [main.ads-dashboard-4ce.pages.dev](https://main.ads-dashboard-4ce.pages.dev)
 
 ---
 
-## Core Mission & Capabilities
+## Masalah yang Diselesaikan
 
-- **🕵️‍♂️ Autonomous Competitor Auditing**: Automates search queries on the Meta Ads Library to pull real-time competitor ad samples safely and cleanly using Playwright, avoiding manual platform browsing.
-- **🤖 Multi-Agent Marketing Generation**: Spawns highly specialized AI agents working sequentially to build a comprehensive plan:
-  - ✍️ **Expert Direct-Response Copywriter**: Drafts conversion-oriented ad copies utilizing proven marketing frameworks (PAS/AIDA).
-  - 📊 **Performance Marketing Analyst**: Models comprehensive budget scenarios (Testing, Scaling, Aggressive) and estimates standard KPIs (CPM, CPC, CTR).
-  - 🎯 **Marketing Strategist & Creative Briefer**: Structures targeted buyer personas, drafts creative briefs/guidelines for video editors, and aligns landing page angles.
-  - 🔍 **Competitor & Market Auditor**: Scrutinizes crawled competitor strategies to deliver tailored gap analysis and tactical counter-offers.
-- **🌐 Visual Campaign Reporting**: Compiles generated analytical reports into a modern, responsive single-page HTML dashboard built with Tailwind CSS for instant review and strategic planning.
+Membuat strategi iklan yang efektif butuh waktu berjam-jam:
+- Riset kompetitor manual di Meta Ads Library
+- Menulis berbagai variasi copy iklan
+- Menghitung simulasi budget dan KPI
+- Menyusun buyer persona dan creative brief
+- Menganalisis gap pasar
+
+Tools ini mengotomasi semua proses di atas dalam ~40 detik.
+
+---
+
+## Cara Kerja
+
+1. **Input** — Masukkan deskripsi produk dan kata kunci kompetitor
+2. **Scraping** — Sistem mengambil data iklan kompetitor dari Meta Ads Library via Apify
+3. **AI Pipeline** — 4 AI agent berjalan secara berurutan menggunakan Cloudflare Workers AI (Llama 3.1 8B):
+   - ✍️ **Copywriter** — 3 variasi hook, 1 body copy, 2 variasi CTA menggunakan framework AIDA/PAS
+   - 📊 **Analyst** — Simulasi budget Testing/Scaling/Aggressive dengan estimasi CPM, CPC, CTR
+   - 🎯 **Strategist** — Profil buyer persona, panduan video editor, rekomendasi landing page
+   - 🔍 **Auditor** — Analisis USP kompetitor, identifikasi gap pasar, rekomendasi counter-offer
+4. **Output** — Hasil ditampilkan di dashboard web yang bisa di-expand per agent
+
+---
+
+## Stack Teknologi
+
+- **Frontend:** React 19 + TypeScript + Vite 8 + Tailwind CSS v4
+- **Backend:** Cloudflare Workers + Hono framework
+- **AI:** Cloudflare Workers AI (Llama 3.1 8B) — gratis 10k neurons/hari
+- **Storage:** Cloudflare KV
+- **Scraping:** Apify Meta Ads Library scraper
+- **Hosting:** Cloudflare Pages + Workers (edge network global)
+
+---
+
+## Biaya Operasional
+
+Seluruhnya berjalan di free tier — **$0/bulan** untuk personal use.
+
+---
+
+## Status Pengembangan
+
+Project ini aktif dikembangkan dari personal tool menuju public SaaS.
+Lihat [ROADMAP.md](ROADMAP.md) untuk rencana pengembangan lengkap.
