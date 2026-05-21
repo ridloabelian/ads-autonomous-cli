@@ -4,18 +4,19 @@ main = "src/worker/index.ts"
 compatibility_date = "2024-01-01"
 
 # KV Namespace for storing campaign data
-# Run: wrangler kv:namespace create "CAMPAIGNS"
-# Then update the id below
 [[kv_namespaces]]
 binding = "CAMPAIGNS"
 id = "18b310b4119845b68c27655872d2cd51"
+
+# Cloudflare AI binding (free, no API key needed)
+[ai]
+binding = "AI"
 
 # Environment variables (non-sensitive)
 [vars]
 ENVIRONMENT = "production"
 
-# Secrets (sensitive data - set with: wrangler secret put SECRET_NAME)
-# GEMINI_API_KEY - set with: wrangler secret put GEMINI_API_KEY
+# Secrets (set with: wrangler secret put SECRET_NAME)
 # APIFY_API_KEY - set with: wrangler secret put APIFY_API_KEY
 
 # Development configuration

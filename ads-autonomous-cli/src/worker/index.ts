@@ -5,7 +5,7 @@ import { processCampaign } from './services/campaign';
 
 type Bindings = {
   CAMPAIGNS: KVNamespace;
-  GEMINI_API_KEY: string;
+  AI: Ai;
   APIFY_API_KEY: string;
 };
 

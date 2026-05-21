@@ -1,118 +1,67 @@
 /**
- * AI Service using Google Gemini API
- * 
- * Gemini Pro is cost-effective and fast:
- * - $0.00025 per 1k characters input
- * - $0.0005 per 1k characters output
- * 
- * For comparison:
- * - OpenAI GPT-4: $0.03 per 1k tokens
- * - Claude: $0.08 per 1k tokens
+ * AI Service using Cloudflare Workers AI
+ *
+ * Free tier: 10,000 neurons/day — no API key needed.
+ * Model: llama-3.1-8b-instruct (fast, capable for marketing copy)
+ *
+ * Docs: https://developers.cloudflare.com/workers-ai/
  */
 
-interface GeminiRequest {
-  contents: Array<{
-    parts: Array<{
-      text: string;
-    }>;
-  }>;
-  generationConfig?: {
-    temperature?: number;
-    maxOutputTokens?: number;
-    topP?: number;
-    topK?: number;
-  };
+interface AiEnv {
+  AI: Ai;
 }
 
-interface GeminiResponse {
-  candidates: Array<{
-    content: {
-      parts: Array<{
-        text: string;
-      }>;
-    };
-    finishReason: string;
-  }>;
-}
-
-export async function generateWithGemini(
+export async function generateWithCloudfareAI(
   prompt: string,
   systemPrompt: string,
-  apiKey: string,
-  temperature: number = 0.7
+  env: AiEnv
 ): Promise<string> {
-  console.log('Generating with Gemini...');
-  
-  try {
-    const fullPrompt = `${systemPrompt}\n\n${prompt}`;
-    
-    const request: GeminiRequest = {
-      contents: [{
-        parts: [{ text: fullPrompt }]
-      }],
-      generationConfig: {
-        temperature,
-        maxOutputTokens: 2048,
-        topP: 0.95,
-        topK: 40
-      }
-    };
-    
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(request)
-      }
-    );
-    
-    if (!response.ok) {
-      const error = await response.text();
-      throw new Error(`Gemini API error: ${error}`);
-    }
-    
-    const data: GeminiResponse = await response.json();
-    
-    if (!data.candidates || data.candidates.length === 0) {
-      throw new Error('No response from Gemini');
-    }
-    
-    const result = data.candidates[0].content.parts[0].text;
-    console.log(`Generated ${result.length} characters`);
-    
-    return result;
-  } catch (error) {
-    console.error('Gemini generation error:', error);
-    throw error;
+  console.log('Generating with Cloudflare AI...');
+
+  const response = await env.AI.run('@cf/meta/llama-3.1-8b-instruct', {
+    messages: [
+      { role: 'system', content: systemPrompt },
+      { role: 'user', content: prompt },
+    ],
+    max_tokens: 2048,
+    temperature: 0.7,
+  });
+
+  // response bisa berupa stream atau object biasa
+  if (typeof response === 'object' && 'response' in response) {
+    const text = (response as { response: string }).response;
+    console.log(`Generated ${text.length} characters`);
+    return text;
   }
+
+  throw new Error('Unexpected response format from Cloudflare AI');
 }
 
 /**
- * Retry wrapper for AI generation with exponential backoff
+ * Retry wrapper dengan exponential backoff
  */
 export async function generateWithRetry(
   prompt: string,
   systemPrompt: string,
-  apiKey: string,
+  env: AiEnv,
   maxRetries: number = 3
 ): Promise<string> {
   let lastError: Error | null = null;
-  
+
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
-      return await generateWithGemini(prompt, systemPrompt, apiKey);
+      return await generateWithCloudfareAI(prompt, systemPrompt, env);
     } catch (error) {
       lastError = error instanceof Error ? error : new Error('Unknown error');
       console.error(`Attempt ${attempt} failed:`, lastError.message);
-      
+
       if (attempt < maxRetries) {
-        const delay = Math.pow(2, attempt) * 1000; // Exponential backoff
+        const delay = Math.pow(2, attempt) * 1000;
         console.log(`Retrying in ${delay}ms...`);
         await new Promise(resolve => setTimeout(resolve, delay));
       }
     }
   }
-  
+
   throw lastError || new Error('All retry attempts failed');
 }
