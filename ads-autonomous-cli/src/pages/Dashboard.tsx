@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Sparkles, PenTool, BarChart3, Target, Search } from 'lucide-react';
 import { CampaignForm } from '../components/CampaignForm';
 import { CampaignCard } from '../components/CampaignCard';
@@ -8,11 +8,7 @@ import { ErrorState } from '../components/ErrorState';
 import { useCampaign } from '../hooks/useCampaign';
 
 export const Dashboard: React.FC = () => {
-  const { campaignData, isLoading, error, fetchCampaignData, runCampaign } = useCampaign();
-
-  useEffect(() => {
-    fetchCampaignData();
-  }, [fetchCampaignData]);
+  const { campaignData, isLoading, error, runCampaign } = useCampaign();
 
   const hasCampaignData = campaignData && Object.keys(campaignData).length > 0;
 
@@ -57,7 +53,7 @@ export const Dashboard: React.FC = () => {
             )}
           </div>
 
-          {error && <ErrorState message={error} onRetry={fetchCampaignData} />}
+          {error && <ErrorState message={error} onRetry={() => {}} />}
 
           {!error && isLoading && !hasCampaignData && <LoadingState />}
 
