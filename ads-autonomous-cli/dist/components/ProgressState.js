@@ -1,0 +1,14 @@
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import React from 'react';
+import { CheckCircle2, Circle, AlertCircle, Loader } from 'lucide-react';
+export const ProgressState = ({ steps, currentStep, progress, estimatedTimeRemaining }) => {
+    const formatTime = (seconds) => {
+        if (seconds < 60)
+            return `${seconds}s`;
+        const minutes = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${minutes}m ${secs}s`;
+    };
+    return (_jsxs("div", { className: "bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl border border-blue-200 p-8", children: [_jsxs("div", { className: "mb-8", children: [_jsxs("div", { className: "flex items-center justify-between mb-2", children: [_jsx("h3", { className: "text-lg font-bold text-gray-900", children: "Memproses Campaign..." }), _jsxs("span", { className: "text-sm font-semibold text-blue-600", children: [progress, "%"] })] }), _jsx("div", { className: "w-full bg-blue-200 rounded-full h-2", children: _jsx("div", { className: "bg-gradient-to-r from-blue-500 to-indigo-600 h-2 rounded-full transition-all duration-300", style: { width: `${progress}%` } }) })] }), _jsx("div", { className: "space-y-4 mb-8", children: steps.map((step) => (_jsxs("div", { className: "flex items-start gap-4", children: [_jsxs("div", { className: "flex-shrink-0 mt-1", children: [step.status === 'completed' && (_jsx(CheckCircle2, { className: "text-green-500", size: 24 })), step.status === 'in_progress' && (_jsx(Loader, { className: "text-blue-500 animate-spin", size: 24 })), step.status === 'failed' && (_jsx(AlertCircle, { className: "text-red-500", size: 24 })), step.status === 'pending' && (_jsx(Circle, { className: "text-gray-300", size: 24 }))] }), _jsxs("div", { className: "flex-1", children: [_jsxs("div", { className: "flex items-center gap-2", children: [_jsxs("span", { className: "text-sm font-semibold text-gray-900", children: ["Step ", step.step, "/", step.totalSteps] }), _jsx("span", { className: "text-sm text-gray-600", children: step.title })] }), step.status === 'failed' && step.error && (_jsx("p", { className: "text-xs text-red-600 mt-1 bg-red-50 px-2 py-1 rounded", children: step.error }))] })] }, step.step))) }), estimatedTimeRemaining !== undefined && estimatedTimeRemaining > 0 && (_jsx("div", { className: "bg-white rounded-lg p-4 border border-blue-100", children: _jsxs("p", { className: "text-sm text-gray-600", children: ["Estimasi waktu tersisa:", ' ', _jsx("span", { className: "font-semibold text-gray-900", children: formatTime(estimatedTimeRemaining) })] }) })), _jsx("div", { className: "mt-6 text-center", children: _jsx("p", { className: "text-sm text-gray-600", children: "\uD83D\uDCA1 Jangan tutup halaman ini sampai campaign selesai" }) })] }));
+};
+//# sourceMappingURL=ProgressState.js.map

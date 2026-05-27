@@ -36,9 +36,18 @@ export const CampaignForm: React.FC<CampaignFormProps> = ({ onSubmit, isLoading 
 
       <div className="space-y-6">
         <div>
-          <label htmlFor="productDescription" className="block text-sm font-semibold text-gray-700 mb-2">
-            📝 Deskripsi Produk/Jasa Anda
-          </label>
+          <div className="flex items-center justify-between mb-2">
+            <label htmlFor="productDescription" className="block text-sm font-semibold text-gray-700">
+              📝 Deskripsi Produk/Jasa Anda
+            </label>
+            <span className={`text-xs font-medium ${
+              formData.productDescription.length > 5000 ? 'text-red-600' :
+              formData.productDescription.length > 4000 ? 'text-orange-600' :
+              'text-gray-500'
+            }`}>
+              {formData.productDescription.length} / 5000
+            </span>
+          </div>
           <textarea
             id="productDescription"
             name="productDescription"
@@ -46,16 +55,27 @@ export const CampaignForm: React.FC<CampaignFormProps> = ({ onSubmit, isLoading 
             onChange={handleChange}
             required
             rows={4}
+            maxLength={5000}
             placeholder="Contoh: Kursus online n8n untuk automasi bisnis, dari nol sampai mahir membangun agentic workflow..."
             className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"
             disabled={isLoading}
           />
+          {formData.productDescription.length < 10 && formData.productDescription.length > 0 && (
+            <p className="mt-2 text-xs text-orange-600">
+              ⚠️ Deskripsi terlalu singkat (minimal 10 karakter)
+            </p>
+          )}
         </div>
 
         <div>
-          <label htmlFor="competitorKeyword" className="block text-sm font-semibold text-gray-700 mb-2">
-            🎯 Kata Kunci Iklan Kompetitor
-          </label>
+          <div className="flex items-center justify-between mb-2">
+            <label htmlFor="competitorKeyword" className="block text-sm font-semibold text-gray-700">
+              🎯 Kata Kunci Iklan Kompetitor
+            </label>
+            <span className="text-xs text-gray-500">
+              {formData.competitorKeyword.length} / 100
+            </span>
+          </div>
           <input
             id="competitorKeyword"
             name="competitorKeyword"
@@ -63,6 +83,7 @@ export const CampaignForm: React.FC<CampaignFormProps> = ({ onSubmit, isLoading 
             value={formData.competitorKeyword}
             onChange={handleChange}
             required
+            maxLength={100}
             placeholder="Contoh: kursus automasi, kursus n8n"
             className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
             disabled={isLoading}
@@ -70,6 +91,11 @@ export const CampaignForm: React.FC<CampaignFormProps> = ({ onSubmit, isLoading 
           <p className="mt-2 text-xs text-gray-500">
             Kata kunci ini akan digunakan untuk scraping Meta Ads Library
           </p>
+          {formData.competitorKeyword.length < 2 && formData.competitorKeyword.length > 0 && (
+            <p className="mt-1 text-xs text-orange-600">
+              ⚠️ Kata kunci terlalu singkat (minimal 2 karakter)
+            </p>
+          )}
         </div>
 
         <button

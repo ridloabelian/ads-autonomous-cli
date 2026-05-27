@@ -46,4 +46,40 @@ export const api = {
       return { error: error instanceof Error ? error.message : 'Failed to run campaign' };
     }
   },
+
+  async listCampaigns(): Promise<ApiResponse<{ campaigns: any[] }>> {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/campaigns`);
+      if (!response.ok) throw new Error('Failed to list campaigns');
+      const data = await response.json();
+      return { data };
+    } catch (error) {
+      return { error: error instanceof Error ? error.message : 'Failed to list campaigns' };
+    }
+  },
+
+  async deleteCampaign(campaignId: string): Promise<ApiResponse<{ message: string }>> {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/campaign-data/${campaignId}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) throw new Error('Failed to delete campaign');
+      const data = await response.json();
+      return { data };
+    } catch (error) {
+      return { error: error instanceof Error ? error.message : 'Failed to delete campaign' };
+    }
+  },
+
+  async getCampaignProgress(campaignId: string): Promise<ApiResponse<any>> {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/campaign-progress/${campaignId}`);
+      if (!response.ok) throw new Error('Failed to fetch campaign progress');
+      const data = await response.json();
+      return { data };
+    } catch (error) {
+      return { error: error instanceof Error ? error.message : 'Failed to fetch campaign progress' };
+    }
+  },
 };

@@ -7,6 +7,7 @@
  * Free tier: 5,000 results/month
  * Paid: $49/month for 50,000 results
  */
+import { ContextLogger } from './errors';
 interface MetaAd {
     adId: string;
     pageId: string;
@@ -18,6 +19,6 @@ interface MetaAd {
     impressions?: string;
     spend?: string;
 }
-export declare function scrapeMetaAds(keyword: string, apiKey: string, maxResults?: number): Promise<MetaAd[]>;
+export declare function scrapeMetaAds(keyword: string, apiKey: string, maxResults?: number, logger?: ContextLogger): Promise<MetaAd[]>;
 export {};
 //# sourceMappingURL=scraper.d.ts.map

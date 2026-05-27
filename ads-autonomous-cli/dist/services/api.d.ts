@@ -6,5 +6,12 @@ export declare const api: {
     }>>;
     getCampaignById(campaignId: string): Promise<ApiResponse<any>>;
     runCampaign(formData: CampaignFormData): Promise<ApiResponse<any>>;
+    listCampaigns(): Promise<ApiResponse<{
+        campaigns: any[];
+    }>>;
+    deleteCampaign(campaignId: string): Promise<ApiResponse<{
+        message: string;
+    }>>;
+    getCampaignProgress(campaignId: string): Promise<ApiResponse<any>>;
 };
 //# sourceMappingURL=api.d.ts.map
