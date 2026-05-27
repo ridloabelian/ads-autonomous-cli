@@ -7,62 +7,104 @@
  * Free tier: 5,000 results/month
  * Paid: $49/month for 50,000 results
  */
-export async function scrapeMetaAds(keyword, apiKey, maxResults = 10) {
-    console.log(`Scraping Meta Ads for keyword: ${keyword}`);
+import { ContextLogger, createScrapingError, createScrapingTimeoutError } from './errors';
+export async function scrapeMetaAds(keyword, apiKey, maxResults = 10, logger) {
+    const log = logger || new ContextLogger();
+    log.step(1, 'Scraping Meta Ads', { keyword, maxResults });
     try {
-        // Using Apify's Meta Ads Library Scraper
-        // Actor ID: apify/meta-ads-library-scraper
+        // Check if API key exists
+        if (!apiKey || apiKey === 'mock') {
+            log.warn('Apify API key not configured, using mock data');
+            return getMockMetaAds(keyword);
+        }
         const actorId = 'apify/meta-ads-library-scraper';
         const input = {
             searchTerm: keyword,
-            country: 'ID', // Indonesia
-            maxResults: maxResults,
+            country: 'ID',
+            maxResults: Math.min(maxResults, 50),
             adType: 'all'
         };
-        // Start the actor run
-        const runResponse = await fetch(`https://api.apify.com/v2/acts/${actorId}/runs?token=${apiKey}`, {
+        // Start the actor run with timeout
+        const runResponse = await fetchWithTimeout(`https://api.apify.com/v2/acts/${actorId}/runs?token=${apiKey}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(input)
-        });
+        }, 10000 // 10 second timeout
+        );
         if (!runResponse.ok) {
-            const error = await runResponse.text();
-            throw new Error(`Failed to start Apify scraper: ${error}`);
+            const errorText = await runResponse.text();
+            if (runResponse.status === 401 || runResponse.status === 403) {
+                log.error('Apify API authentication failed', undefined, { apiKey: '***' });
+                return getMockMetaAds(keyword);
+            }
+            throw createScrapingError(`HTTP ${runResponse.status}: ${errorText}`);
         }
         const runData = await runResponse.json();
-        const runId = runData.data.id;
-        console.log(`Apify run started: ${runId}`);
-        // Wait for the run to complete (poll status)
+        const runId = runData.data?.id;
+        if (!runId) {
+            throw createScrapingError('No run ID returned from Apify');
+        }
+        log.info('Apify run started', { runId });
+        // Poll for completion with timeout
         let status = 'RUNNING';
         let attempts = 0;
-        const maxAttempts = 30; // 30 seconds max
+        const maxAttempts = 20; // 20 seconds max
         while (status === 'RUNNING' && attempts < maxAttempts) {
-            await new Promise(resolve => setTimeout(resolve, 1000)); // Wait 1 second
-            const statusResponse = await fetch(`https://api.apify.com/v2/acts/${actorId}/runs/${runId}?token=${apiKey}`);
-            if (statusResponse.ok) {
-                const statusData = await statusResponse.json();
-                status = statusData.data.status;
-                console.log(`Scraper status: ${status}`);
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            try {
+                const statusResponse = await fetchWithTimeout(`https://api.apify.com/v2/acts/${actorId}/runs/${runId}?token=${apiKey}`, {}, 5000);
+                if (statusResponse.ok) {
+                    const statusData = await statusResponse.json();
+                    status = statusData.data?.status || 'UNKNOWN';
+                    log.info(`Scraper running (${attempts + 1}/${maxAttempts})`, { status });
+                }
+            }
+            catch (pollError) {
+                log.warn('Failed to poll scraper status, retrying...', {
+                    attempt: attempts + 1,
+                    error: pollError instanceof Error ? pollError.message : String(pollError)
+                });
             }
             attempts++;
         }
         if (status !== 'SUCCEEDED') {
-            throw new Error(`Scraper did not complete successfully. Status: ${status}`);
+            if (attempts >= maxAttempts) {
+                log.warn('Scraper polling timed out, using fallback data');
+                throw createScrapingTimeoutError();
+            }
+            throw createScrapingError(`Scraper status: ${status}`);
         }
-        // Get the results
-        const resultsResponse = await fetch(`https://api.apify.com/v2/acts/${actorId}/runs/${runId}/dataset/items?token=${apiKey}`);
+        // Fetch results
+        const resultsResponse = await fetchWithTimeout(`https://api.apify.com/v2/acts/${actorId}/runs/${runId}/dataset/items?token=${apiKey}`, {}, 10000);
         if (!resultsResponse.ok) {
-            throw new Error('Failed to fetch scraper results');
+            throw createScrapingError(`Failed to fetch results: HTTP ${resultsResponse.status}`);
         }
         const results = await resultsResponse.json();
-        console.log(`Scraped ${results.length} ads`);
-        return results;
+        const adCount = Array.isArray(results) ? results.length : 0;
+        log.success(`Scraped ${adCount} competitor ads`);
+        return Array.isArray(results) ? results : [];
     }
     catch (error) {
-        console.error('Scraping error:', error);
-        // Return mock data as fallback
-        console.log('Returning mock data as fallback');
+        log.error('Scraping error', error instanceof Error ? error : new Error(String(error)));
+        // Fallback: return mock data
+        log.warn('Using mock data as fallback');
         return getMockMetaAds(keyword);
+    }
+}
+/**
+ * Fetch with timeout
+ */
+async function fetchWithTimeout(url, init, timeoutMs = 10000) {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+    try {
+        return await fetch(url, {
+            ...init,
+            signal: controller.signal
+        });
+    }
+    finally {
+        clearTimeout(timeoutId);
     }
 }
 /**

@@ -6,13 +6,14 @@
  *
  * Docs: https://developers.cloudflare.com/workers-ai/
  */
+import { ContextLogger } from './errors';
 interface AiEnv {
     AI: Ai;
 }
-export declare function generateWithCloudfareAI(prompt: string, systemPrompt: string, env: AiEnv): Promise<string>;
+export declare function generateWithCloudfareAI(prompt: string, systemPrompt: string, env: AiEnv, logger?: ContextLogger): Promise<string>;
 /**
- * Retry wrapper dengan exponential backoff
+ * Retry wrapper with exponential backoff
  */
-export declare function generateWithRetry(prompt: string, systemPrompt: string, env: AiEnv, maxRetries?: number): Promise<string>;
+export declare function generateWithRetry(prompt: string, systemPrompt: string, env: AiEnv, maxRetries?: number, logger?: ContextLogger): Promise<string>;
 export {};
 //# sourceMappingURL=ai.d.ts.map

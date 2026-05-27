@@ -8,9 +8,13 @@ import { ErrorState } from '../components/ErrorState';
 import { useCampaign } from '../hooks/useCampaign';
 
 export const Dashboard: React.FC = () => {
-  const { campaignData, isLoading, error, runCampaign } = useCampaign();
+  const { campaignData, isLoading, error, runCampaign, clearError } = useCampaign();
 
   const hasCampaignData = campaignData && Object.keys(campaignData).length > 0;
+
+  const handleRetry = () => {
+    clearError();
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
@@ -53,7 +57,13 @@ export const Dashboard: React.FC = () => {
             )}
           </div>
 
-          {error && <ErrorState message={error} onRetry={() => {}} />}
+          {error && (
+            <ErrorState
+              message={error.message}
+              details={error.details}
+              onRetry={handleRetry}
+            />
+          )}
 
           {!error && isLoading && !hasCampaignData && <LoadingState />}
 

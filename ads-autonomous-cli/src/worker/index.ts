@@ -3,6 +3,12 @@ import { cors } from 'hono/cors';
 import { scrapeMetaAds } from './services/scraper';
 import { processCampaign } from './services/campaign';
 
+declare global {
+  interface Ai {
+    run(model: string, options?: Record<string, any>): Promise<any>;
+  }
+}
+
 type Bindings = {
   CAMPAIGNS: KVNamespace;
   AI: Ai;
@@ -74,32 +80,43 @@ app.get('/api/campaigns', async (c) => {
 app.post('/api/run-campaign', async (c) => {
   try {
     const { productDescription, competitorKeyword } = await c.req.json();
-    
+
     // Validate input
-    if (!productDescription || !competitorKeyword) {
-      return c.json({ 
-        error: 'Missing required fields: productDescription and competitorKeyword' 
+    if (!productDescription?.trim()) {
+      return c.json({
+        error: 'Product description is required'
       }, 400);
     }
-    
+
+    if (!competitorKeyword?.trim()) {
+      return c.json({
+        error: 'Competitor keyword is required'
+      }, 400);
+    }
+
     if (productDescription.length < 10) {
-      return c.json({ 
-        error: 'Product description must be at least 10 characters' 
+      return c.json({
+        error: 'Product description must be at least 10 characters (currently: ' + productDescription.length + ')'
       }, 400);
     }
-    
+
     if (competitorKeyword.length < 2) {
-      return c.json({ 
-        error: 'Competitor keyword must be at least 2 characters' 
+      return c.json({
+        error: 'Competitor keyword must be at least 2 characters (currently: ' + competitorKeyword.length + ')'
       }, 400);
     }
-    
+
+    if (productDescription.length > 5000) {
+      return c.json({
+        error: 'Product description is too long (max: 5000 characters)'
+      }, 400);
+    }
+
     const campaignId = crypto.randomUUID();
-    
-    console.log(`Starting campaign ${campaignId} for keyword: ${competitorKeyword}`);
-    
-    // Process campaign (this will take time)
-    // For now, we'll do it synchronously. Later we can use Queues for async
+
+    console.log(`[${campaignId.substring(0, 8)}] Starting campaign for keyword: ${competitorKeyword}`);
+
+    // Process campaign
     try {
       const result = await processCampaign(
         campaignId,
@@ -107,36 +124,30 @@ app.post('/api/run-campaign', async (c) => {
         competitorKeyword,
         c.env
       );
-      
-      return c.json({ 
-        campaignId,
-        status: 'completed',
+
+      return c.json({
+        campaignId: result.campaignId,
+        status: result.status,
         message: 'Campaign completed successfully',
-        data: result
+        data: result,
+        timestamp: result.timestamp,
+        duration: result.duration
       });
     } catch (error) {
-      console.error('Campaign processing error:', error);
-      
-      // Save error state
-      await c.env.CAMPAIGNS.put(campaignId, JSON.stringify({
-        campaignId,
-        timestamp: new Date().toISOString(),
-        productDescription,
-        keyword: competitorKeyword,
-        status: 'failed',
-        error: error instanceof Error ? error.message : 'Unknown error'
-      }));
-      
-      return c.json({ 
+      const errorMsg = error instanceof Error ? error.message : 'Campaign processing failed';
+      console.error(`[${campaignId.substring(0, 8)}] Campaign error:`, errorMsg);
+
+      return c.json({
         campaignId,
         status: 'failed',
-        error: error instanceof Error ? error.message : 'Campaign processing failed'
+        error: errorMsg,
+        timestamp: new Date().toISOString()
       }, 500);
     }
   } catch (error) {
-    console.error('Request error:', error);
-    return c.json({ 
-      error: 'Invalid request format' 
+    console.error('Request parsing error:', error);
+    return c.json({
+      error: 'Invalid request format. Expected JSON with productDescription and competitorKeyword.'
     }, 400);
   }
 });
