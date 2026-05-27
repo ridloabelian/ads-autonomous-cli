@@ -170,4 +170,31 @@ app.delete('/api/campaign-data/:id', async (c) => {
   }
 });
 
+// Get campaign progress (placeholder for future WebSocket implementation)
+app.get('/api/campaign-progress/:id', async (c) => {
+  try {
+    const id = c.req.param('id');
+    const data = await c.env.CAMPAIGNS.get(id);
+
+    if (!data) {
+      return c.json({
+        campaignId: id,
+        status: 'not_found',
+        message: 'Campaign not found or still processing'
+      }, 404);
+    }
+
+    const campaign = JSON.parse(data);
+    return c.json({
+      campaignId: id,
+      status: campaign.status,
+      progress: campaign.status === 'completed' ? 100 : 0,
+      duration: campaign.duration
+    });
+  } catch (error) {
+    console.error('Error fetching campaign progress:', error);
+    return c.json({ error: 'Failed to fetch campaign progress' }, 500);
+  }
+});
+
 export default app;

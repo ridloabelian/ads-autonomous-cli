@@ -69,5 +69,17 @@ export const api = {
             return { error: error instanceof Error ? error.message : 'Failed to delete campaign' };
         }
     },
+    async getCampaignProgress(campaignId) {
+        try {
+            const response = await fetch(`${API_BASE_URL}/api/campaign-progress/${campaignId}`);
+            if (!response.ok)
+                throw new Error('Failed to fetch campaign progress');
+            const data = await response.json();
+            return { data };
+        }
+        catch (error) {
+            return { error: error instanceof Error ? error.message : 'Failed to fetch campaign progress' };
+        }
+    },
 };
 //# sourceMappingURL=api.js.map

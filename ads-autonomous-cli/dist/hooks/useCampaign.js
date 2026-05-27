@@ -4,6 +4,9 @@ export const useCampaign = () => {
     const [campaignData, setCampaignData] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [progressSteps, setProgressSteps] = useState([]);
+    const [currentProgress, setCurrentProgress] = useState(0);
+    const [estimatedTimeRemaining, setEstimatedTimeRemaining] = useState();
     const formatErrorMessage = (errorMsg) => {
         if (errorMsg.includes('timeout')) {
             return {
@@ -121,6 +124,9 @@ export const useCampaign = () => {
         error,
         runCampaign,
         clearError,
+        progressSteps,
+        currentProgress,
+        estimatedTimeRemaining,
     };
 };
 //# sourceMappingURL=useCampaign.js.map

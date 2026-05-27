@@ -5,13 +5,23 @@ import { CampaignCard } from '../components/CampaignCard';
 import { EmptyState } from '../components/EmptyState';
 import { LoadingState } from '../components/LoadingState';
 import { ErrorState } from '../components/ErrorState';
+import { ProgressState } from '../components/ProgressState';
 import { CampaignHistory } from '../components/CampaignHistory';
 import { CampaignComparison } from '../components/CampaignComparison';
 import { useCampaign } from '../hooks/useCampaign';
 import { api } from '../services/api';
 
 export const Dashboard: React.FC = () => {
-  const { campaignData, isLoading, error, runCampaign, clearError } = useCampaign();
+  const {
+    campaignData,
+    isLoading,
+    error,
+    runCampaign,
+    clearError,
+    progressSteps,
+    currentProgress,
+    estimatedTimeRemaining
+  } = useCampaign();
   const [showHistory, setShowHistory] = useState(false);
   const [showComparison, setShowComparison] = useState(false);
   const [comparisonCampaigns, setComparisonCampaigns] = useState<[any, any] | null>(null);
@@ -116,7 +126,16 @@ export const Dashboard: React.FC = () => {
             />
           )}
 
-          {!error && isLoading && !hasCampaignData && <LoadingState />}
+          {!error && isLoading && progressSteps.length > 0 && (
+            <ProgressState
+              steps={progressSteps}
+              currentStep={currentProgress}
+              progress={currentProgress}
+              estimatedTimeRemaining={estimatedTimeRemaining}
+            />
+          )}
+
+          {!error && isLoading && progressSteps.length === 0 && !hasCampaignData && <LoadingState />}
 
           {!error && !isLoading && !hasCampaignData && <EmptyState />}
 

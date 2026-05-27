@@ -1,6 +1,7 @@
 import { scrapeMetaAds } from './scraper';
 import { generateWithRetry } from './ai';
 import { ContextLogger, createKVError } from './errors';
+import { ProgressTracker } from './progress';
 
 const PROMPTS = {
   copywriter: `# Role: Expert Direct-Response Copywriter
@@ -52,6 +53,7 @@ export async function processCampaign(
   env: any
 ): Promise<CampaignResult> {
   const logger = new ContextLogger(campaignId.substring(0, 8));
+  const progress = new ProgressTracker(campaignId, logger);
   logger.info('Starting campaign processing', { keyword });
 
   const startTime = Date.now();
@@ -59,18 +61,21 @@ export async function processCampaign(
   try {
     // Step 1: Scrape competitor ads
     logger.step(1, 'Scraping competitor ads', { keyword });
+    progress.startStep(1);
     const competitorData = await scrapeMetaAds(
       keyword,
       env.APIFY_API_KEY || 'mock',
       10,
       logger
     );
+    progress.completeStep(1);
 
     const step1Duration = ((Date.now() - startTime) / 1000).toFixed(2);
     logger.success(`Scraped ${competitorData.length} ads`, { duration: `${step1Duration}s` });
 
     // Step 2: Copywriter
     logger.step(2, 'Generating copy variations');
+    progress.startStep(2);
     const copywriter = await generateWithRetry(
       productDescription,
       PROMPTS.copywriter,
@@ -78,11 +83,13 @@ export async function processCampaign(
       3,
       logger
     );
+    progress.completeStep(2);
     const step2Duration = ((Date.now() - startTime) / 1000).toFixed(2);
     logger.success('Copywriter complete', { duration: `${step2Duration}s` });
 
     // Step 3: Analyst
     logger.step(3, 'Generating budget analysis');
+    progress.startStep(3);
     const analyst = await generateWithRetry(
       productDescription,
       PROMPTS.analyst,
@@ -90,11 +97,13 @@ export async function processCampaign(
       3,
       logger
     );
+    progress.completeStep(3);
     const step3Duration = ((Date.now() - startTime) / 1000).toFixed(2);
     logger.success('Analyst complete', { duration: `${step3Duration}s` });
 
     // Step 4: Strategist
     logger.step(4, 'Generating marketing strategy');
+    progress.startStep(4);
     const strategist = await generateWithRetry(
       productDescription,
       PROMPTS.strategist,
@@ -102,11 +111,13 @@ export async function processCampaign(
       3,
       logger
     );
+    progress.completeStep(4);
     const step4Duration = ((Date.now() - startTime) / 1000).toFixed(2);
     logger.success('Strategist complete', { duration: `${step4Duration}s` });
 
     // Step 5: Auditor
     logger.step(5, 'Analyzing competitors');
+    progress.startStep(5);
     const competitorSummary = competitorData
       .map(ad => `- ${ad.pageName}: "${ad.adText}"`)
       .join('\n');
@@ -119,6 +130,7 @@ export async function processCampaign(
       3,
       logger
     );
+    progress.completeStep(5);
     const step5Duration = ((Date.now() - startTime) / 1000).toFixed(2);
     logger.success('Auditor complete', { duration: `${step5Duration}s` });
 

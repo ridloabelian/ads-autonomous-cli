@@ -7,10 +7,21 @@ interface ErrorDetails {
   details?: string;
 }
 
+interface ProgressStep {
+  step: number;
+  totalSteps: number;
+  title: string;
+  status: 'pending' | 'in_progress' | 'completed' | 'failed';
+  error?: string;
+}
+
 export const useCampaign = () => {
   const [campaignData, setCampaignData] = useState<CampaignData | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<ErrorDetails | null>(null);
+  const [progressSteps, setProgressSteps] = useState<ProgressStep[]>([]);
+  const [currentProgress, setCurrentProgress] = useState(0);
+  const [estimatedTimeRemaining, setEstimatedTimeRemaining] = useState<number>();
 
   const formatErrorMessage = (errorMsg: string): ErrorDetails => {
     if (errorMsg.includes('timeout')) {
@@ -142,5 +153,8 @@ export const useCampaign = () => {
     error,
     runCampaign,
     clearError,
+    progressSteps,
+    currentProgress,
+    estimatedTimeRemaining,
   };
 };

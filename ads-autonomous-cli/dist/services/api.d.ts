@@ -12,5 +12,6 @@ export declare const api: {
     deleteCampaign(campaignId: string): Promise<ApiResponse<{
         message: string;
     }>>;
+    getCampaignProgress(campaignId: string): Promise<ApiResponse<any>>;
 };
 //# sourceMappingURL=api.d.ts.map
