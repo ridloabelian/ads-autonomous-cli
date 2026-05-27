@@ -1,19 +1,39 @@
-import React from 'react';
-import { Sparkles, PenTool, BarChart3, Target, Search } from 'lucide-react';
+import React, { useState } from 'react';
+import { Sparkles, PenTool, BarChart3, Target, Search, History, GitCompare } from 'lucide-react';
 import { CampaignForm } from '../components/CampaignForm';
 import { CampaignCard } from '../components/CampaignCard';
 import { EmptyState } from '../components/EmptyState';
 import { LoadingState } from '../components/LoadingState';
 import { ErrorState } from '../components/ErrorState';
+import { CampaignHistory } from '../components/CampaignHistory';
+import { CampaignComparison } from '../components/CampaignComparison';
 import { useCampaign } from '../hooks/useCampaign';
+import { api } from '../services/api';
 
 export const Dashboard: React.FC = () => {
   const { campaignData, isLoading, error, runCampaign, clearError } = useCampaign();
+  const [showHistory, setShowHistory] = useState(false);
+  const [showComparison, setShowComparison] = useState(false);
+  const [comparisonCampaigns, setComparisonCampaigns] = useState<[any, any] | null>(null);
+  const [historyRefresh, setHistoryRefresh] = useState(0);
 
   const hasCampaignData = campaignData && Object.keys(campaignData).length > 0;
 
   const handleRetry = () => {
     clearError();
+  };
+
+  const handleViewCampaign = async (campaignId: string) => {
+    const response = await api.getCampaignById(campaignId);
+    if (response.data?.data?.results) {
+      // If viewing a campaign, we could load it into the main view
+      // For now, we'll just trigger a refresh of history
+      setHistoryRefresh(prev => prev + 1);
+    }
+  };
+
+  const handleDeleteCampaign = () => {
+    setHistoryRefresh(prev => prev + 1);
   };
 
   return (
@@ -46,7 +66,38 @@ export const Dashboard: React.FC = () => {
           <CampaignForm onSubmit={runCampaign} isLoading={isLoading} />
         </div>
 
-        {/* Campaign Results */}
+        {/* Tabs */}
+        <div className="mb-8 flex gap-4 border-b border-gray-200">
+          <button
+            onClick={() => setShowHistory(false)}
+            className={`pb-3 px-4 font-medium transition-colors ${
+              !showHistory
+                ? 'border-b-2 border-blue-600 text-blue-600'
+                : 'text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            <div className="flex items-center gap-2">
+              <Sparkles size={18} />
+              Campaign Terbaru
+            </div>
+          </button>
+          <button
+            onClick={() => setShowHistory(true)}
+            className={`pb-3 px-4 font-medium transition-colors ${
+              showHistory
+                ? 'border-b-2 border-blue-600 text-blue-600'
+                : 'text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            <div className="flex items-center gap-2">
+              <History size={18} />
+              History
+            </div>
+          </button>
+        </div>
+
+        {/* Campaign Results / History */}
+        {!showHistory ? (
         <div>
           <div className="flex items-center gap-3 mb-6">
             <h2 className="text-2xl font-bold text-gray-900">Campaign Results</h2>
@@ -109,7 +160,28 @@ export const Dashboard: React.FC = () => {
             </div>
           )}
         </div>
+        ) : (
+        <div>
+          <div className="flex items-center gap-3 mb-6">
+            <h2 className="text-2xl font-bold text-gray-900">Campaign History</h2>
+          </div>
+          <CampaignHistory
+            onViewCampaign={handleViewCampaign}
+            onDeleteCampaign={handleDeleteCampaign}
+            refreshTrigger={historyRefresh}
+          />
+        </div>
+        )}
       </main>
+
+      {/* Comparison Modal */}
+      {showComparison && comparisonCampaigns && (
+        <CampaignComparison
+          campaign1={comparisonCampaigns[0]}
+          campaign2={comparisonCampaigns[1]}
+          onClose={() => setShowComparison(false)}
+        />
+      )}
 
       {/* Footer */}
       <footer className="border-t border-gray-100 mt-20 py-8">

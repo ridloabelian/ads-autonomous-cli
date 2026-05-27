@@ -1,8 +1,8 @@
 import React from 'react';
 interface ErrorStateProps {
     message: string;
+    details?: string | undefined;
     onRetry?: () => void;
-    details?: string;
 }
 export declare const ErrorState: React.FC<ErrorStateProps>;
 export {};

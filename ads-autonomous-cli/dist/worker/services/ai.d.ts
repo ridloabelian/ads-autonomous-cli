@@ -7,6 +7,11 @@
  * Docs: https://developers.cloudflare.com/workers-ai/
  */
 import { ContextLogger } from './errors';
+declare global {
+    interface Ai {
+        run(model: string, options?: Record<string, any>): Promise<any>;
+    }
+}
 interface AiEnv {
     AI: Ai;
 }

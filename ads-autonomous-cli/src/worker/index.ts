@@ -4,6 +4,12 @@ import { scrapeMetaAds } from './services/scraper';
 import { processCampaign } from './services/campaign';
 
 declare global {
+  interface KVNamespace {
+    get(key: string): Promise<string | null>;
+    put(key: string, value: string, options?: any): Promise<void>;
+    delete(key: string): Promise<void>;
+    list(options?: any): Promise<any>;
+  }
   interface Ai {
     run(model: string, options?: Record<string, any>): Promise<any>;
   }
