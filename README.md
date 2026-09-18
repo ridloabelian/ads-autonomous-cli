@@ -2,7 +2,7 @@
 
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-Cloudflare%20Pages-F38020?logo=cloudflare&logoColor=white)](https://main.ads-dashboard-4ce.pages.dev)
 [![API](https://img.shields.io/badge/API-Cloudflare%20Workers-F38020?logo=cloudflare&logoColor=white)](https://ads-autonomous-api.ridloabelian.workers.dev/api/health)
-[![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Stack: React + Vite](https://img.shields.io/badge/Stack-React%20%2B%20Vite-61DAFB?logo=react&logoColor=white)](https://vitejs.dev/)
 [![AI: Cloudflare Workers AI](https://img.shields.io/badge/AI-Cloudflare%20Workers%20AI-F38020?logo=cloudflare&logoColor=white)](https://developers.cloudflare.com/workers-ai/)
 [![Runtime: Node.js](https://img.shields.io/badge/Node.js-v18+-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
